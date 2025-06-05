@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const Add=()=>{
+        let p = Number(n1.value);
+        let q =  Number(n2.value);
+        return p+q;
+        
+        }
+        const Sub=()=>{
+        let p = Number(n1.value);
+        let q =  Number(n2.value);
+        return p-q;
+        
+        }
+        const Mult=()=>{
+        let p = Number(n1.value);
+        let q =  Number(n2.value);
+        return p*q;
+        }
+        const Div=()=>{
+        let p = Number(n1.value);
+        let q =  Number(n2.value);
+        return p/q;
+        
+        }
+
+        const Calc=()=>{
+            add=Add();
+            sub=Sub();
+            mult= Mult();
+            div= Div();
+            addResult.innerHTML = n1.value + " +" + n2.value + " = " + add;
+            subResult.innerHTML = n1.value + " -" + n2.value + " = " + sub;
+            multResult.innerHTML = n1.value + " *" + n2.value + " = "+ mult;
+            divResult.innerHTML = n1.value + " / " + n2.value + " = "+ div;
+
+        }
+        
+    </script>
+</head>
+<body>
+    <h1>Assignment 4</h1>
+    <h2>Calculator</h2>
+    <input type="text" id="n1">
+    <input type="text" id="n2">
+    <button onclick="Calc()" style="background-color: rgb(230, 212, 12);"> Calculate</button>
+    
+
+    <div id="addResult"></div>
+    <div id="subResult"></div>
+    <div id="multResult"></div>
+    <div id="divResult"></div>
+    
+</body>
+</html>
