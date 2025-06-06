@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fruit List App</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #fdfbfb, #ebedee);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 320px;
+    }
+
+    h2 {
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      outline: none;
+    }
+
+    button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+      margin-left: 10px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+    #fruitList {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    #fruitList ul {
+      list-style-type: circle;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 5px 0;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Add Your Favorite Fruits 🍉</h2>
+    <input type="text" id="fruitInput" placeholder="Type fruit name">
+    <br><br>
+    <button onclick="addFruit()">Add</button>
+
+    <div id="fruitList"></div>
+  </div>
+
+  <script>
+    let fruits = [];
+
+    function addFruit() {
+      let input = document.getElementById("fruitInput");
+      let fruitName = input.value.trim();
+
+      if (fruitName !== "") {
+        fruits.push(fruitName);
+        displayFruits();
+        input.value = "";
+      } else {
+        alert("Please enter a fruit name.");
+      }
+    }
+
+    function deleteFruit(index) {
+      fruits.splice(index, 1); // Remove fruit at index
+      displayFruits();
+    }
+
+    function displayFruits() {
+      let listDiv = document.getElementById("fruitList");
+      if (fruits.length === 0) {
+        listDiv.innerHTML = "";
+        return;
+      }
+
+      let html = "<h3>Fruits Added:</h3><ul>";
+      fruits.forEach((fruit, index) => {
+        html += `<li>${fruit} 
+                    <button class="delete-btn" onclick="deleteFruit(${index})">Delete</button>
+                 </li>`;
+      });
+      html += "</ul>";
+      listDiv.innerHTML = html;
+    }
+  </script>
+
+</body>
+</html>
+
