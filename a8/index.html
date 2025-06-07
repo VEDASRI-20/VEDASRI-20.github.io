@@ -1,11 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <title>Fruit List App</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #fdfbfb, #ebedee);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 360px;
+    }
+
+    h2 {
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      outline: none;
+    }
+
+    button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 10px;
+      margin: 5px;
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+    #fruitList {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    #fruitList ul {
+      list-style-type: circle;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 5px 0;
+      color: #333;
+    }
+
+    .highlight {
+      background-color: #ffff99;
+      border-radius: 5px;
+      padding: 2px 5px;
+    }
+  </style>
 </head>
 <body>
-    
+
+  <div class="container">
+    <h2>Fruit List 🍉</h2>
+
+    <input type="text" id="fruitInput" placeholder="Add a fruit">
+    <br>
+    <button onclick="addFruit()">Add Fruit</button>
+
+    <input type="text" id="deleteInput" placeholder="Delete a fruit">
+    <br>
+    <button class="delete-btn" onclick="deleteByName()">Delete Fruit</button>
+
+    <input type="text" id="searchInput" placeholder="Search fruit..." oninput="displayFruits()">
+
+    <div id="fruitList"></div>
+  </div>
+
+  <script>
+    let fruits = [];
+
+    function addFruit() {
+      const input = document.getElementById("fruitInput");
+      const fruitName = input.value.trim();
+
+      if (fruitName !== "") {
+        fruits.push(fruitName);
+        input.value = "";
+        displayFruits();
+      } else {
+        alert("Please enter a fruit name to add.");
+      }
+    }
+
+    function deleteByName() {
+      const deleteInput = document.getElementById("deleteInput").value.trim().toLowerCase();
+
+      if (deleteInput === "") {
+        alert("Please enter a fruit name to delete.");
+        return;
+      }
+
+      const before = fruits.length;
+      fruits = fruits.filter(fruit => fruit.toLowerCase() !== deleteInput);
+      const after = fruits.length;
+
+      if (before === after) {
+        alert("No such fruit found to delete.");
+      }
+
+      document.getElementById("deleteInput").value = "";
+      displayFruits();
+    }
+
+    function displayFruits() {
+      const listDiv = document.getElementById("fruitList");
+      const searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
+
+      if (fruits.length === 0) {
+        listDiv.innerHTML = "<p>No fruits added yet.</p>";
+        return;
+      }
+
+      let html = "<h3>Fruits Added:</h3><ul>";
+      fruits.forEach(fruit => {
+        // Highlight or filter based on search
+        if (searchQuery === "" || fruit.toLowerCase().includes(searchQuery)) {
+          const highlighted = fruit.replace(
+            new RegExp(searchQuery, "gi"),
+            match => `<span class="highlight">${match}</span>`
+          );
+          html += `<li>${highlighted}</li>`;
+        }
+      });
+      html += "</ul>";
+      listDiv.innerHTML = html;
+    }
+  </script>
+ 
 </body>
 </html>
