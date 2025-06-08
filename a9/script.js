@@ -1,30 +1,29 @@
 const users = [];
-let user = {};
-
+let user={}
 const showLogin = () => {
   let str = `
     <div>
-      <h1>Login Form</h1>
-      <p><div id="dvMsg" style="color:red;"></div></p>
-      <p><input type="text" id="txtEmail" placeholder="Email"></p>
-      <p><input type="password" id="txtPass" placeholder="Password"></p>
-      <p><button onclick='validateUser()'>Log In</button></p>
-      <p><button onclick='showRegister()'>Create Account</button></p>
+    <h1>Login Form</h1>
+    <p><div id="dvMsg"></div></p>
+    <p><input type="text" id="txtEmail"></p>
+    <p><input type="password" id="txtPass"></p>
+    <p><button onclick='validateUser()'>Log In</button></p>
+    <p><button onclick='showRegister()'>Create Account</button></p>
     </div>
-  `;
+    `;
   root.innerHTML = str;
 };
 
 const showRegister = () => {
   let str = `
     <h1>Register Form</h1>
-    <p><input type="text" id="txtName" placeholder="Name"></p>
-    <p><input type="text" id="txtEmail" placeholder="Email"></p>
-    <p><input type="password" id="txtPass" placeholder="Password"></p>
-    <p><button onclick='addUser()'>Register</button></p>
+    <p><input type="text" id="txtName"></p>
+     <p><input type="text" id="txtEmail"></p>
+    <p><input type="password" id="txtPass"></p>
+    <button onclick='addUser()'>Register</button>
     <hr>
-    <p><button onclick='showLogin()'>Already a Member? Login here...</button></p>
-  `;
+    <button onClick='showLogin()'>Alread a Member? Login here...</button>
+    `;
   root.innerHTML = str;
 };
 
@@ -32,22 +31,20 @@ const showHome = () => {
   let str = `
     <h1>Welcome ${user.name}</h1>
     <hr>
-    <div id="dvMsg" style="color:red;"></div>
-    <p>
-      <select id="actionSelect">
-        <option value="0">--select--</option>
-        <option value="1">Deposit</option>
-        <option value="2">Withdraw</option>
-      </select>
-    </p>
-    <p><input type='number' id='txtAmount' placeholder="Enter amount"></p>
-    <p>
-      <button onclick='submitTransaction()'>Submit</button>
-      <button onclick='showLogin()'>Logout</button>
-    </p>
+    <p><select>
+     <option value=0>--select--</option>
+      <option value=1>Deposit</option>
+      <option value=2>Withdraw</option>
+      </select></p>
+      <p>
+      <input type='number' id='txtAmount'>
+      </p>
+      <p><button onclick='submitTransaction()'>Submit</button>
+
+    <button onclick='showLogin()'>Logout</button>
     <hr>
-    <p>Current balance: ₹${user.balance.toFixed(2)}</p>
-  `;
+    <p>Current balance:${user.balance}
+    `;
   root.innerHTML = str;
 };
 
@@ -56,49 +53,44 @@ const addUser = () => {
     name: document.getElementById("txtName").value,
     email: document.getElementById("txtEmail").value,
     pass: document.getElementById("txtPass").value,
-    balance: 0
+    balance:0
   };
   users.push(obj);
   showLogin();
 };
 
 const validateUser = () => {
-  const email = document.getElementById("txtEmail").value;
-  const pass = document.getElementById("txtPass").value;
-
-  user = users.find(e => e.email === email && e.pass === pass);
-
+  let email = document.getElementById("txtEmail").value;
+  let pass = document.getElementById("txtPass").value;
+   user = users.find(
+    (e) => e.email === email && e.pass === pass
+  )
   if (user) {
     showHome();
   } else {
-    document.getElementById("dvMsg").innerHTML = "❌ Access Denied. Invalid credentials!";
+    dvMsg.innerHTML = "Access Denied";
   }
 };
 
-const submitTransaction = () => {
-  const action = document.getElementById("actionSelect").value;
-  const amount = parseFloat(document.getElementById("txtAmount").value);
-  const msg = document.getElementById("dvMsg");
-  msg.innerHTML = "";
+const submitTransaction=()=>{
+    const action = document.querySelector("select").value;
+    const amount = parseFloat(document.getElementById('txtAmount').value);
 
-  if (isNaN(amount) || amount <= 0) {
-    msg.innerHTML = "❌ Please enter a valid amount greater than 0.";
-    return;
-  }
-
-  if (action === "1") {
-    // Deposit
-    user.balance += amount;
-    showHome();
-  } else if (action === "2") {
+    if (action==1){
+        user.balance+=amount;
+    }
+   
+else if (action == 2) {
     // Withdraw
     if (amount > user.balance) {
-      msg.innerHTML = "❌ Insufficient balance to withdraw!";
+      alert("Insufficient balance to withdraw!");
       return;
     }
     user.balance -= amount;
-    showHome();
   } else {
-    msg.innerHTML = "❌ Please select an action (Deposit or Withdraw).";
+    alert("Please select a valid action.");
+    return;
   }
+
+  showHome();
 };
